@@ -2,7 +2,7 @@
 #include <flecs.h>
 
 class Application {
-    flecs::world ecsWorld;
+    flecs::world world;
 
 public:
     void Run();

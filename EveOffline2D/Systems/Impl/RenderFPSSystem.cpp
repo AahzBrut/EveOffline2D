@@ -5,7 +5,7 @@
 
 void RenderFPSSystem(const flecs::world &world) {
     world
-            .system()
+            .system(__func__)
             .kind(flecs::OnStore)
             .run([](flecs::iter &) {
                 const auto fpsString = std::format("{}", GetFPS());

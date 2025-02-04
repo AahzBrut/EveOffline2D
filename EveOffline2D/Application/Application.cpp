@@ -2,6 +2,7 @@
 #include <raylib.h>
 
 #include "defs.h"
+#include "AssetManager/Assets.h"
 #include "Components/Components.h"
 #include "Systems/Systems.h"
 
@@ -16,10 +17,12 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     // ecsWorld.import<flecs::stats>();
     // ecsWorld.set<flecs::Rest>({});
 
-    RegisterComponents(ecsWorld);
-    ecsWorld.set(AssetManager{});
-    ecsWorld.set(AudioManager{});
-    RegisterSystems(ecsWorld);
+    RegisterComponents(world);
+    world.set(AssetManager{});
+    world.set(AudioManager{});
+    RegisterSystems(world);
+
+    LoadAssets(world);
 }
 
 void Application::Run() {
@@ -29,7 +32,7 @@ void Application::Run() {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        ecsWorld.progress(GetFrameTime());
+        world.progress(GetFrameTime());
 
         EndDrawing();
     }

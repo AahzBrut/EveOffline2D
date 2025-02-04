@@ -41,6 +41,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         EveOffline2D/AudioManager/AudioManager.h
         EveOffline2D/Systems/Impl/RenderFPSSystem.cpp
         EveOffline2D/Systems/Impl/RenderFPSSystem.h
+        EveOffline2D/Systems/Impl/RenderBackgroundSystem.cpp
+        EveOffline2D/Systems/Impl/RenderBackgroundSystem.h
+        EveOffline2D/AssetManager/Assets.h
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static)
