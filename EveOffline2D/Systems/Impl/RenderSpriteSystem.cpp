@@ -8,10 +8,14 @@
 
 
 void RenderSpriteSystem(const flecs::world &world) {
+    const auto camera = world.get<Camera2D>();
+
     world
             .system<const Position, const Sprite>(__func__)
+            .with<Camera2D>().src<Camera2D>()
             .kind(flecs::OnStore)
-            .each([](const Position &position, const Sprite &sprite) {
+            .each([camera](const Position &position, const Sprite &sprite) {
+                BeginMode2D(*camera);
                 DrawTexturePro(
                     *sprite.texture,
                     sprite.GetSrcRect(),
@@ -20,5 +24,6 @@ void RenderSpriteSystem(const flecs::world &world) {
                     0,
                     WHITE
                 );
+                EndMode2D();
             });
 }

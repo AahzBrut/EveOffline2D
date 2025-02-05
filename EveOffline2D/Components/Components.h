@@ -6,9 +6,10 @@
 
 
 // ReSharper disable file CppExpressionWithoutSideEffects
-inline void RegisterComponents(const flecs::world &ecsWorld) {
-    ecsWorld.component<AssetManager>();
-    ecsWorld.component<AudioManager>();
-    ecsWorld.component<Sprite>();
-    ecsWorld.component<Position>();
+inline void RegisterComponents(const flecs::world &world) {
+    world.component<AssetManager>();
+    world.component<AudioManager>();
+    world.component<Sprite>();
+    world.component<Position>();
+    world.component<Camera2D>();
 }

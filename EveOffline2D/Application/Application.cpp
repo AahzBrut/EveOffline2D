@@ -21,6 +21,7 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     RegisterComponents(world);
     world.set(AssetManager{});
     world.set(AudioManager{});
+    world.set(Camera2D{{WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}, {300, 300}, 0, 1});
     RegisterSystems(world);
 
     LoadAssets(world);
