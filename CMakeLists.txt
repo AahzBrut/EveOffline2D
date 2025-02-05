@@ -50,6 +50,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         EveOffline2D/Spawners/SpawnPlayer.h
         EveOffline2D/Systems/Impl/RenderSpriteSystem.cpp
         EveOffline2D/Systems/Impl/RenderSpriteSystem.h
+        EveOffline2D/Systems/Impl/CameraControlSystem.cpp
+        EveOffline2D/Systems/Impl/CameraControlSystem.h
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static)

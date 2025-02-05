@@ -12,7 +12,6 @@ void RenderSpriteSystem(const flecs::world &world) {
 
     world
             .system<const Position, const Sprite>(__func__)
-            .with<Camera2D>().src<Camera2D>()
             .kind(flecs::OnStore)
             .each([camera](const Position &position, const Sprite &sprite) {
                 BeginMode2D(*camera);
