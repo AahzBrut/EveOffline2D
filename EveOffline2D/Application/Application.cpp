@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "AssetManager/Assets.h"
 #include "Components/Components.h"
+#include "Spawners/SpawnPlayer.h"
 #include "Systems/Systems.h"
 
 
@@ -23,6 +24,8 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     RegisterSystems(world);
 
     LoadAssets(world);
+
+    SpawnPlayer(world);
 }
 
 void Application::Run() {
