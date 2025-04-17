@@ -5,6 +5,7 @@
 #include "AssetManager/Assets.h"
 #include "Components/Components.h"
 #include "Spawners/SpawnPlayer.h"
+#include "Spawners/SpawnShip.h"
 #include "Systems/Systems.h"
 
 
@@ -21,12 +22,13 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     RegisterComponents(world);
     world.set(AssetManager{});
     world.set(AudioManager{});
-    world.set(Camera2D{{WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}, {300, 300}, 0, 1});
+    world.set(Camera2D{{toFloat(WINDOW_WIDTH) * 0.5f, toFloat(WINDOW_HEIGHT) * 0.5f}, {300, 300}, 0, 1});
     RegisterSystems(world);
 
     LoadAssets(world);
 
     SpawnPlayer(world);
+    SpawnShip(world);
 }
 
 void Application::Run() {
