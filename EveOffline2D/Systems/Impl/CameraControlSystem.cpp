@@ -6,7 +6,7 @@
 
 
 void CameraControlSystem(const flecs::world &world) {
-    auto camera = world.get_mut<Camera2D>();
+    auto camera = &world.get_mut<Camera2D>();
 
     world
             .system(__func__)

@@ -8,7 +8,7 @@
 
 
 void SpawnPlayer(const flecs::world &world) {
-    const auto assetManager = world.get_mut<AssetManager>();
+    const auto assetManager = &world.get_mut<AssetManager>();
 
     // ReSharper disable once CppExpressionWithoutSideEffects
     world

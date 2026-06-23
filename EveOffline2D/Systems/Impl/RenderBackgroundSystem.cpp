@@ -6,7 +6,7 @@
 
 
 void RenderBackgroundSystem(const flecs::world &world) {
-    const auto assetManager = world.get_mut<AssetManager>();
+    const auto assetManager = &world.get_mut<AssetManager>();
 
     world
             .system(__func__)

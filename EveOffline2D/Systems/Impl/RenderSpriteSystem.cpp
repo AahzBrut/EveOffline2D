@@ -8,7 +8,7 @@
 
 
 void RenderSpriteSystem(const flecs::world &world) {
-    const auto camera = world.get<Camera2D>();
+    const auto camera = &world.get<Camera2D>();
 
     world
             .system<const Position, const Sprite>(__func__)
