@@ -10,7 +10,6 @@
 void SpawnPlayer(const flecs::world &world) {
     const auto assetManager = &world.get_mut<AssetManager>();
 
-    // ReSharper disable once CppExpressionWithoutSideEffects
     world
             .entity("Player")
             .insert([assetManager](Position &position, Sprite &sprite) {
