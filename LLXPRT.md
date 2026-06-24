@@ -17,4 +17,7 @@
 - Identify changes from the plan that can be implemented in parallel, and use sub-agents to implement the features efficiently
 - When using sub-agents to implement features, act as a coordinator only
 - Use the best model for the task - premium models for complex tasks (like coding) and mid-tier models for simpler tasks, like documentation
-- After completing features (large or small), always run commands like lint, type check and next build to check code quality
+- After completing features (large or small), always run build to check that project is correct
+
+### BUILD
+- to build project change directory to build-cmake-debug and execute command cmake --build 
