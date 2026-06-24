@@ -1,0 +1,76 @@
+{
+  "name": "Rifter",
+  "class": "Tech I Frigate",
+  "faction": "Minmatar Republic",
+
+  "mobility": {
+    "maxVelocity": 365,
+    "warpSpeedAU": 5.0,
+    "alignTimeSeconds": 4.73,
+    "massKg": 1067000,
+    "signatureRadiusM": 35
+  },
+
+  "capacitor": {
+    "capacityGJ": 250
+  },
+
+  "targeting": {
+    "maxTargets": 4,
+    "maxTargetRangeKm": 22.5
+  },
+
+  "cargo": {
+    "capacityM3": 140
+  },
+
+  "slots": {
+    "high": 3,
+    "mid": 3,
+    "low": 4,
+    "rig": 3,
+    "turretHardpoints": 3,
+    "launcherHardpoints": 2
+  },
+
+  "fitting": {
+    "cpuTf": 130,
+    "powergridMW": 41
+  },
+
+  "hitpoints": {
+    "shield": 450,
+    "armor": 450,
+    "hull": 350,
+    "total": 1250
+  },
+
+  "resistances": {
+    "shield": {
+      "em": 0,
+      "thermal": 20,
+      "kinetic": 40,
+      "explosive": 50
+    },
+    "armor": {
+      "em": 60,
+      "thermal": 35,
+      "kinetic": 25,
+      "explosive": 10
+    }
+  },
+
+  "bonuses": {
+    "requiredSkill": "Minmatar Frigate",
+    "perLevel": [
+      {
+        "attribute": "Small Projectile Turret Rate of Fire",
+        "bonusPercent": 7.5
+      },
+      {
+        "attribute": "Small Projectile Turret Falloff",
+        "bonusPercent": 10
+      }
+    ]
+  }
+}
