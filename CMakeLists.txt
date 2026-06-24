@@ -7,7 +7,7 @@ set(BUILD_SHARED_LIBS OFF)
 add_compile_definitions(FLECS_CPP_NO_AUTO_REGISTRATION)
 
 include(FetchContent)
-file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/EveOffline2D/*.cpp)
+file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 FetchContent_Declare(
         raylib
@@ -33,7 +33,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${MY_SOURCES})
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++ -static)
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static)
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_PROJECT_NAME})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ./src)
 
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND
         ${CMAKE_COMMAND} -E copy_directory_if_different

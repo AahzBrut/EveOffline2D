@@ -20,9 +20,9 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     // ecsWorld.set<flecs::Rest>({});
 
     RegisterComponents(world);
-    world.set(AssetManager{});
-    world.set(AudioManager{});
-    world.set(Camera2D{{toFloat(WINDOW_WIDTH) * 0.5f, toFloat(WINDOW_HEIGHT) * 0.5f}, {300, 300}, 0, 1});
+    world.emplace<AssetManager>();
+    world.emplace<AudioManager>();
+    world.emplace<Camera2D>(Vector2{toFloat(WINDOW_WIDTH) * 0.5f, toFloat(WINDOW_HEIGHT) * 0.5f}, Vector2{300, 300}, 0.f, 1.f);
     RegisterSystems(world);
 
     LoadAssets(world);
