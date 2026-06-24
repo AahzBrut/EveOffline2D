@@ -8,6 +8,7 @@ struct Sprite {
     Vector2 offset;
     Vector2 size;
     Shared<Texture> texture;
+    float rotation = 0.0f;
 
     [[nodiscard]] Rectangle GetSrcRect() const {
         return Rectangle{offset.x, offset.y, size.x, size.y};
