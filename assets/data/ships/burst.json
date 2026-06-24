@@ -1,0 +1,84 @@
+{
+  "name": "Burst",
+  "class": "Tech I Logistics Frigate",
+  "faction": "Minmatar Republic",
+
+  "mobility": {
+    "maxVelocity": 415,
+    "massKg": 1420000,
+    "signatureRadiusM": 33
+  },
+
+  "capacitor": {
+    "capacityGJ": 560
+  },
+
+  "targeting": {
+    "maxTargets": 7,
+    "maxTargetRangeM": 34000,
+    "sensorType": "Ladar",
+    "sensorStrength": 9,
+    "scanResolutionMm": 925
+  },
+
+  "cargo": {
+    "capacityM3": 260
+  },
+
+  "slots": {
+    "high": 3,
+    "mid": 3,
+    "low": 3,
+    "rig": 3,
+    "turretHardpoints": 2,
+    "launcherHardpoints": 0
+  },
+
+  "fitting": {
+    "cpuTf": 190,
+    "powergridMW": 40,
+    "calibration": 400
+  },
+
+  "hitpoints": {
+    "shield": 400,
+    "armor": 250,
+    "hull": 290,
+    "total": 940
+  },
+
+  "resistances": {
+    "shield": {
+      "em": 0,
+      "thermal": 20,
+      "kinetic": 40,
+      "explosive": 50
+    },
+    "armor": {
+      "em": 60,
+      "thermal": 35,
+      "kinetic": 25,
+      "explosive": 10
+    }
+  },
+
+  "bonuses": {
+    "requiredSkill": "Minmatar Frigate",
+    "perLevel": [
+      {
+        "attribute": "Remote Shield Booster Amount",
+        "bonusPercent": 10
+      },
+      {
+        "attribute": "Remote Shield Booster Activation Cost",
+        "bonusPercent": -10
+      }
+    ],
+    "roleBonuses": [
+      {
+        "attribute": "Remote Shield Booster Falloff",
+        "bonusPercent": 300
+      }
+    ]
+  }
+}
