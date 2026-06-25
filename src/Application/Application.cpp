@@ -11,6 +11,7 @@
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-static)
+    SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Eve offline 2D");
     InitAudioDevice();
 

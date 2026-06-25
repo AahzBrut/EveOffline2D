@@ -13,21 +13,36 @@
 
 
 static constexpr float ARRIVAL_THRESHOLD = 5.0f;
+static constexpr float ROTATION_SPEED = 90.0f;
 
 void MovementSystem(const flecs::world &world) {
     world
-            .system<Position, VelocityVector, MaxSpeed, Rotation, TargetPosition>("MovementSystem")
+            .system<Position, VelocityVector, MaxSpeed, Rotation, TargetPosition>("MovementSystem.Move")
             .kind(flecs::OnUpdate)
-            .each([&world](flecs::entity entity, Position &position, VelocityVector &velocity, const MaxSpeed &maxSpeed, const Rotation &rotation, const TargetPosition &target) {
+            .each([](const flecs::iter &it, size_t index,  Position &position, VelocityVector &velocity, const MaxSpeed &maxSpeed, Rotation &rotation, const TargetPosition &target) {
+                const float dt = it.delta_time();
+
+                const Vector2 dir = Vector2Subtract(target.value, {toFloat(position.x), toFloat(position.y)});
+                const float targetAngle = RAD2DEG * atan2f(dir.y, dir.x);
+
+                float angleDiff = targetAngle - rotation.angle;
+                while (angleDiff > 180) angleDiff -= 360;
+                while (angleDiff < -180) angleDiff += 360;
+
+                if (std::abs(angleDiff) < ROTATION_SPEED * dt) {
+                    rotation.angle = targetAngle;
+                } else {
+                    rotation.angle += ROTATION_SPEED * dt * (angleDiff > 0 ? 1.0f : -1.0f);
+                }
+
                 const Vector2 currentPos = {toFloat(position.x), toFloat(position.y)};
-                const Vector2 dir = Vector2Subtract(target.value, currentPos);
                 const float distance = Vector2Length(dir);
 
                 if (distance < ARRIVAL_THRESHOLD) {
                     velocity.velocity = {0, 0};
                     position.x = target.value.x;
                     position.y = target.value.y;
-                    entity.remove<TargetPosition>();
+                    it.entity(index).remove<TargetPosition>();
                     return;
                 }
 
@@ -36,7 +51,7 @@ void MovementSystem(const flecs::world &world) {
 
                 velocity.velocity = {forward.x * maxSpeed.value, forward.y * maxSpeed.value};
 
-                position.x += velocity.velocity.x * world.delta_time();
-                position.y += velocity.velocity.y * world.delta_time();
+                position.x += velocity.velocity.x * dt;
+                position.y += velocity.velocity.y * dt;
             });
 }
