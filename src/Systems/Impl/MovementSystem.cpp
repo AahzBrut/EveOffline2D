@@ -19,7 +19,7 @@ void MovementSystem(const flecs::world &world) {
     world
             .system<Position, VelocityVector, MaxSpeed, Rotation, TargetPosition>("MovementSystem.Move")
             .kind(flecs::OnUpdate)
-            .each([](const flecs::iter &it, size_t index,  Position &position, VelocityVector &velocity, const MaxSpeed &maxSpeed, Rotation &rotation, const TargetPosition &target) {
+            .each([](const flecs::iter &it, const size_t index,  Position &position, VelocityVector &velocity, const MaxSpeed &maxSpeed, Rotation &rotation, const TargetPosition &target) {
                 const float dt = it.delta_time();
 
                 const Vector2 dir = Vector2Subtract(target.value, {toFloat(position.x), toFloat(position.y)});
@@ -35,13 +35,11 @@ void MovementSystem(const flecs::world &world) {
                     rotation.angle += ROTATION_SPEED * dt * (angleDiff > 0 ? 1.0f : -1.0f);
                 }
 
-                const Vector2 currentPos = {toFloat(position.x), toFloat(position.y)};
-                const float distance = Vector2Length(dir);
-
-                if (distance < ARRIVAL_THRESHOLD) {
+                if (const float distance = Vector2Length(dir); distance < ARRIVAL_THRESHOLD) {
                     velocity.velocity = {0, 0};
                     position.x = target.value.x;
                     position.y = target.value.y;
+                    // ReSharper disable once CppExpressionWithoutSideEffects
                     it.entity(index).remove<TargetPosition>();
                     return;
                 }
