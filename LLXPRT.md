@@ -20,4 +20,4 @@
 - After completing features (large or small), always run build to check that project is correct
 
 ### BUILD
-- to build project change directory to build-cmake-debug and execute command cmake --build 
+- to build project execute command cmake --build ./cmake-build-debug 
