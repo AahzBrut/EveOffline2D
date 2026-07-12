@@ -20,19 +20,44 @@ FetchContent_Declare(
 FetchContent_Declare(
         flecs
         GIT_REPOSITORY https://github.com/SanderMertens/flecs.git
-        GIT_TAG v4.1.5
+        GIT_TAG v4.1.6
         GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE
 )
 
-FetchContent_MakeAvailable(raylib flecs)
+set(IMGUI_VERSION 1.92.8)
+FetchContent_Declare(
+        imgui
+        URL https://github.com/ocornut/imgui/archive/refs/tags/v${IMGUI_VERSION}-docking.tar.gz
+)
+FetchContent_Declare(
+        rlimgui
+        URL https://github.com/raylib-extras/rlImGui/archive/refs/tags/Raylib_6_0.tar.gz
+)
+
+FetchContent_MakeAvailable(raylib flecs imgui rlimgui)
+
+# Build ImGui static library
+add_library(imgui STATIC
+        ${imgui_SOURCE_DIR}/imgui.cpp
+        ${imgui_SOURCE_DIR}/imgui_demo.cpp
+        ${imgui_SOURCE_DIR}/imgui_draw.cpp
+        ${imgui_SOURCE_DIR}/imgui_tables.cpp
+        ${imgui_SOURCE_DIR}/imgui_widgets.cpp)
+
+target_include_directories(imgui SYSTEM PUBLIC ${imgui_SOURCE_DIR})
+
+# Build rlImGui static library
+add_library(rlimgui STATIC ${rlimgui_SOURCE_DIR}/rlImGui.cpp)
+target_include_directories(rlimgui PUBLIC ${rlimgui_SOURCE_DIR})
+target_link_libraries(rlimgui PUBLIC raylib imgui)
 
 add_executable(${CMAKE_PROJECT_NAME})
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${MY_SOURCES})
 
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++ -static)
 
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE raylib flecs_static rlimgui)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ./src)
 
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND
