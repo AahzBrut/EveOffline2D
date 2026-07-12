@@ -6,7 +6,3 @@ enum class ModuleSlotType : int {
     Mid,
     Low
 };
-
-struct ModuleSlot {
-    ModuleSlotType type;
-};

@@ -21,5 +21,5 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<TargetPosition>();
     world.component<Rotation>();
     world.component<Camera2D>();
-    world.component<ModuleSlot>();
+    world.component<ModuleSlotType>();
 }

@@ -2,9 +2,9 @@
 
 #include <raylib.h>
 
-#include "Components/Impl/Position.h"
 #include "defs.h"
 #include "Logger.h"
+#include "Components/Impl/Position.h"
 
 
 void CameraControlSystem(const flecs::world &world) {
@@ -12,18 +12,16 @@ void CameraControlSystem(const flecs::world &world) {
 
     world
             .system(__func__)
-            .run([camera](flecs::iter &it) {
-                const auto wheelDelta = GetMouseWheelMove();
-                if (wheelDelta != 0) {
+            .run([camera](const flecs::iter &it) {
+                if (const auto wheelDelta = GetMouseWheelMove(); wheelDelta != 0) {
                     const auto zoomDelta = wheelDelta > 0 ? 2.f : 0.5f;
                     camera->zoom *= zoomDelta;
                 }
 
-                const auto player = it.world().entity("Player");
-                if (player.has<Position>()) {
-                    const auto &pos = player.get<Position>();
-                    camera->target.x = toFloat(pos.x);
-                    camera->target.y = toFloat(pos.y);
+                if (const auto player = it.world().entity("Player"); player.has<Position>()) {
+                    const auto & [x, y] = player.get<Position>();
+                    //camera->target.x = toFloat(x);
+                    //camera->target.y = toFloat(y);
                 }
             });
 }

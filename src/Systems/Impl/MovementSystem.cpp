@@ -9,47 +9,47 @@
 #include "Components/Impl/Rotation.h"
 #include "Components/Impl/TargetPosition.h"
 #include "Components/Impl/Velocity.h"
-#include "defs.h"
 
 
 static constexpr float ARRIVAL_THRESHOLD = 5.0f;
-static constexpr float ROTATION_SPEED = 90.0f;
+static constexpr float ROTATION_SPEED = 180.0f / 4;
 
-void MovementSystem(const flecs::world &world) {
+void MovementSystem(const flecs::world& world) {
     world
-            .system<Position, VelocityVector, MaxSpeed, Rotation, TargetPosition>("MovementSystem.Move")
-            .kind(flecs::OnUpdate)
-            .each([](const flecs::iter &it, const size_t index,  Position &position, VelocityVector &velocity, const MaxSpeed &maxSpeed, Rotation &rotation, const TargetPosition &target) {
-                const float dt = it.delta_time();
+        .system<Position, VelocityVector, MaxSpeed, Rotation, TargetPosition>(__FILE__)
+        .kind(flecs::OnUpdate)
+        .each([](const flecs::iter& it, const size_t index, Position& position, VelocityVector& velocity,
+                 const MaxSpeed& maxSpeed, Rotation& rotation, const TargetPosition& target) {
+            const float dt = it.delta_time();
 
-                const Vector2 dir = Vector2Subtract(target.value, {toFloat(position.x), toFloat(position.y)});
-                const float targetAngle = RAD2DEG * atan2f(dir.y, dir.x);
+            const auto dir = target.value - position.Vector2();
+            const float targetAngle = RAD2DEG * atan2f(dir.y, dir.x);
 
-                float angleDiff = targetAngle - rotation.angle;
-                while (angleDiff > 180) angleDiff -= 360;
-                while (angleDiff < -180) angleDiff += 360;
+            float angleDiff = targetAngle - rotation.angle;
+            while (angleDiff > 180) angleDiff -= 360;
+            while (angleDiff < -180) angleDiff += 360;
 
-                if (std::abs(angleDiff) < ROTATION_SPEED * dt) {
-                    rotation.angle = targetAngle;
-                } else {
-                    rotation.angle += ROTATION_SPEED * dt * (angleDiff > 0 ? 1.0f : -1.0f);
-                }
+            if (std::abs(angleDiff) < ROTATION_SPEED * dt) {
+                rotation.angle = targetAngle;
+            } else {
+                rotation.angle += ROTATION_SPEED * dt * (angleDiff > 0 ? 1.0f : -1.0f);
+            }
 
-                if (const float distance = Vector2Length(dir); distance < ARRIVAL_THRESHOLD) {
-                    velocity.velocity = {0, 0};
-                    position.x = target.value.x;
-                    position.y = target.value.y;
-                    // ReSharper disable once CppExpressionWithoutSideEffects
-                    it.entity(index).remove<TargetPosition>();
-                    return;
-                }
+            if (const float distance = Vector2Length(dir); distance < ARRIVAL_THRESHOLD) {
+                velocity.velocity = {0, 0};
+                position.x = target.value.x;
+                position.y = target.value.y;
+                // ReSharper disable once CppExpressionWithoutSideEffects
+                it.entity(index).remove<TargetPosition>();
+                return;
+            }
 
-                const float angleRad = rotation.angle * DEG2RAD;
-                const Vector2 forward = {cosf(angleRad), sinf(angleRad)};
+            const float angleRad = rotation.angle * DEG2RAD;
+            const Vector2 forward = {cosf(angleRad), sinf(angleRad)};
 
-                velocity.velocity = {forward.x * maxSpeed.value, forward.y * maxSpeed.value};
+            velocity.velocity = {forward.x * maxSpeed.value, forward.y * maxSpeed.value};
 
-                position.x += velocity.velocity.x * dt;
-                position.y += velocity.velocity.y * dt;
-            });
+            position.x += velocity.velocity.x * dt;
+            position.y += velocity.velocity.y * dt;
+        });
 }
