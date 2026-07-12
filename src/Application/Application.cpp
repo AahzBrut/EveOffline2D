@@ -1,5 +1,8 @@
 #include "Application.h"
+
+#include <imgui.h>
 #include <raylib.h>
+#include <rlImGui.h>
 
 #include "defs.h"
 #include "AssetManager/Assets.h"
@@ -15,6 +18,11 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Eve offline 2D");
     InitAudioDevice();
 
+    rlImGuiSetup(true);
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.FontGlobalScale = 2.0;
+
     // SetTargetFPS(60);
     // ecsWorld.import<flecs::units>();
     // ecsWorld.import<flecs::stats>();
@@ -23,7 +31,8 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
     RegisterComponents(world);
     world.emplace<AssetManager>();
     world.emplace<AudioManager>();
-    world.emplace<Camera2D>(Vector2{toFloat(WINDOW_WIDTH) * 0.5f, toFloat(WINDOW_HEIGHT) * 0.5f}, Vector2{300, 300}, 0.f, 1.f);
+    world.emplace<Camera2D>(Vector2 {toFloat(WINDOW_WIDTH) * 0.5f, toFloat(WINDOW_HEIGHT) * 0.5f}, Vector2 {300, 300},
+                            0.f, 1.f);
     RegisterSystems(world);
 
     LoadAssets(world);
@@ -39,7 +48,9 @@ void Application::Run() {
         BeginDrawing();
         ClearBackground(BLACK);
 
+        rlImGuiBegin();
         world.progress(GetFrameTime());
+        rlImGuiEnd();
 
         EndDrawing();
     }
