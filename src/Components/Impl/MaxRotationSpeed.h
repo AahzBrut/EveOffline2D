@@ -1,6 +1,6 @@
 #pragma once
 
-struct MaxSpeed {
+struct MaxRotationSpeed {
     float baseValue;
     float effectiveValue;
 };

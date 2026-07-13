@@ -21,7 +21,7 @@ void RenderSpriteSystem(const flecs::world &world) {
                     sprite.GetSrcRect(),
                     sprite.GetDstRect({toFloat(position.x), toFloat(position.y)}),
                     sprite.GetCenterOrigin(),
-                    rotation.angle + 90.0f,
+                    rotation.value * RAD2DEG + 90.0f,
                     WHITE
                 );
                 EndMode2D();

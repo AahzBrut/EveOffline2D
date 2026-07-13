@@ -3,24 +3,45 @@
 #include "defs.h"
 #include "AssetManager/AssetManager.h"
 #include "AssetManager/Assets.h"
+#include "Components/Impl/Acceleration.h"
+#include "Components/Impl/MaxRotationSpeed.h"
 #include "Components/Impl/MaxSpeed.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"
+#include "Components/Impl/Speed.h"
 #include "Components/Impl/Sprite.h"
+#include "Components/Impl/TargetRotation.h"
+#include "Components/Impl/ThrustLevel.h"
 #include "Components/Impl/Velocity.h"
 
 
-void SpawnPlayer(const flecs::world &world) {
+void SpawnPlayer(const flecs::world& world) {
     const auto assetManager = &world.get_mut<AssetManager>();
 
     world
-            .entity("Player")
-            .insert([assetManager](Position &position, Sprite &sprite, VelocityVector &velocity, MaxSpeed &maxSpeed, Rotation &rotation) {
+        .entity("Player")
+        .insert([assetManager](
+            Position& position,
+            Sprite& sprite,
+            VelocityVector& velocity,
+            MaxSpeed& maxSpeed,
+            Rotation& rotation,
+            Acceleration& acceleration,
+            MaxRotationSpeed& maxRotationSpeed,
+            TargetRotation& targetRotation,
+            ThrustLevel& thrustLevel,
+            Speed& speed
+        ) {
                 const auto spriteTexture = assetManager->GetTexture(ShipSprite);
                 position = {300, 300};
                 sprite = {{}, {toFloat(spriteTexture->width), toFloat(spriteTexture->height)}, spriteTexture};
                 velocity = {{0, 0}};
-                maxSpeed = {200.0f};
+                maxSpeed = {450.0f, 450.0f};
                 rotation = {0.0f};
+                acceleration = {50.0f, 50.0f};
+                maxRotationSpeed = {30.0f * DEG2RAD, 30.0f * DEG2RAD};
+                thrustLevel = {0.0f};
+                targetRotation = {0.0f};
+                speed = {0.0f, 0.0f};
             });
 }
