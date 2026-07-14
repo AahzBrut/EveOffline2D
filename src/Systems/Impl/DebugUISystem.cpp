@@ -13,7 +13,7 @@
 void DebugUISystem(const flecs::world& world) {
     world
         .system(__func__)
-        .kind(flecs::OnUpdate)
+        .kind(flecs::OnStore)
         .run([](const flecs::iter& it) {
             ImGui::Begin("Debug Info");
 

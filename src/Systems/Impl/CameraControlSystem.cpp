@@ -2,7 +2,6 @@
 
 #include <raylib.h>
 
-#include "defs.h"
 #include "Logger.h"
 #include "Components/Impl/Position.h"
 

@@ -5,8 +5,9 @@
 #include "AssetManager/AssetManager.h"
 
 
-const auto BackgroundImage = std::string("background-image");
-const auto ShipSprite = std::string("ship-sprite");
+constexpr auto BackgroundImage = "background-image";
+constexpr auto ShipSprite = "ship-sprite";
+constexpr auto NpcShipSprite = "npc-ship-sprite";
 
 
 inline void LoadAssets(const flecs::world &world) {
@@ -14,4 +15,5 @@ inline void LoadAssets(const flecs::world &world) {
 
     assetManager->LoadTexture(BackgroundImage, "./assets/gfx/background/Purple_Nebula_01-1024x1024.png");
     assetManager->LoadTexture(ShipSprite, "./assets/gfx/ships/falcon_base.png");
+    assetManager->LoadTexture(NpcShipSprite, "./assets/gfx/ships/Ship-1.png");
 }

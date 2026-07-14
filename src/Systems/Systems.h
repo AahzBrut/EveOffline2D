@@ -1,8 +1,10 @@
 #pragma once
 #include <flecs.h>
 
+#include "Impl/BeginCameraSystem.h"
 #include "Impl/CameraControlSystem.h"
 #include "Impl/DebugUISystem.h"
+#include "Impl/EndCameraSystem.h"
 #include "Impl/InputSystem.h"
 #include "Impl/MovementSystem.h"
 #include "Impl/RenderBackgroundSystem.h"
@@ -14,10 +16,12 @@
 inline void RegisterSystems(const flecs::world &world) {
     CameraControlSystem(world);
     InputSystem(world);
-    MovementSystem(world);
-    RenderBackgroundSystem(world);
-    RenderSpriteSystem(world);
-    DebugUISystem(world);
     RotationSystem(world);
     ThrustSystem(world);
+    MovementSystem(world);
+    RenderBackgroundSystem(world);
+    BeginCameraSystem(world);
+    RenderSpriteSystem(world);
+    EndCameraSystem(world);
+    DebugUISystem(world);
 }

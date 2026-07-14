@@ -7,6 +7,7 @@
 #include "defs.h"
 #include "AssetManager/Assets.h"
 #include "Components/Components.h"
+#include "Spawners/SpawnNPC.h"
 #include "Spawners/SpawnPlayer.h"
 #include "Spawners/SpawnShip.h"
 #include "Systems/Systems.h"
@@ -39,6 +40,7 @@ void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-s
 
     SpawnPlayer(world);
     SpawnShip(world);
+    SpawnNPC(world);
 }
 
 void Application::Run() {

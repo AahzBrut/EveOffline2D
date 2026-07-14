@@ -1,6 +1,5 @@
-#include "SpawnPlayer.h"
+#include "SpawnNPC.h"
 
-#include "defs.h"
 #include "AssetManager/AssetManager.h"
 #include "AssetManager/Assets.h"
 #include "Components/Impl/Acceleration.h"
@@ -15,11 +14,11 @@
 #include "Components/Impl/Velocity.h"
 
 
-void SpawnPlayer(const flecs::world& world) {
+void SpawnNPC(const flecs::world& world) {
     const auto assetManager = &world.get_mut<AssetManager>();
 
     world
-        .entity("Player")
+        .entity()
         .insert([assetManager](
             Position& position,
             Sprite& sprite,
@@ -32,8 +31,8 @@ void SpawnPlayer(const flecs::world& world) {
             ThrustLevel& thrustLevel,
             Speed& speed
         ) {
-                const auto spriteTexture = assetManager->GetTexture(ShipSprite);
-                position = {300, 300};
+                const auto spriteTexture = assetManager->GetTexture(NpcShipSprite);
+                position = {300, 100};
                 sprite = {{}, {toFloat(spriteTexture->width), toFloat(spriteTexture->height)}, spriteTexture, PI / 2, 0.5f};
                 velocity = {{0, 0}};
                 maxSpeed = {450.0f, 450.0f};

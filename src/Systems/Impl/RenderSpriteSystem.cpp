@@ -3,27 +3,27 @@
 #include <raylib.h>
 
 #include "defs.h"
+#include "Logger.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"
 #include "Components/Impl/Sprite.h"
 
 
 void RenderSpriteSystem(const flecs::world &world) {
-    const auto camera = &world.get<Camera2D>();
-
     world
             .system<const Position, const Sprite, const Rotation>(__func__)
             .kind(flecs::OnStore)
-            .each([camera](const Position &position, const Sprite &sprite, const Rotation &rotation) {
-                BeginMode2D(*camera);
+            .each([](const Position &position, const Sprite &sprite, const Rotation &rotation) {
+                const auto dstRect = sprite.GetDstRect({toFloat(position.x), toFloat(position.y)});
                 DrawTexturePro(
                     *sprite.texture,
                     sprite.GetSrcRect(),
                     sprite.GetDstRect({toFloat(position.x), toFloat(position.y)}),
                     sprite.GetCenterOrigin(),
-                    rotation.value * RAD2DEG + 90.0f,
+                    rotation.value * RAD2DEG + sprite.rotation * RAD2DEG,
                     WHITE
                 );
-                EndMode2D();
+
+                DrawCircle(toInt(dstRect.x), toInt(dstRect.y), 10.0f, WHITE);
             });
 }
