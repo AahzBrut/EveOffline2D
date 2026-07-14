@@ -5,6 +5,7 @@
 #include "Impl/MaxRotationSpeed.h"
 #include "Impl/MaxSpeed.h"
 #include "Impl/ModuleSlot.h"
+#include "Impl/MouseCollider.h"
 #include "Impl/Position.h"
 #include "Impl/Rotation.h"
 #include "Impl/Speed.h"
@@ -33,4 +34,5 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<MaxRotationSpeed>();
     world.component<ThrustLevel>();
     world.component<Speed>();
+    world.component<MouseCollider>();
 }

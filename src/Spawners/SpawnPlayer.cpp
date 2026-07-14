@@ -6,6 +6,7 @@
 #include "Components/Impl/Acceleration.h"
 #include "Components/Impl/MaxRotationSpeed.h"
 #include "Components/Impl/MaxSpeed.h"
+#include "Components/Impl/MouseCollider.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"
 #include "Components/Impl/Speed.h"
@@ -30,11 +31,14 @@ void SpawnPlayer(const flecs::world& world) {
             MaxRotationSpeed& maxRotationSpeed,
             TargetRotation& targetRotation,
             ThrustLevel& thrustLevel,
-            Speed& speed
+            Speed& speed,
+            MouseCollider& mouseCollider
         ) {
                 const auto spriteTexture = assetManager->GetTexture(ShipSprite);
                 position = {300, 300};
-                sprite = {{}, {toFloat(spriteTexture->width), toFloat(spriteTexture->height)}, spriteTexture, PI / 2, 0.5f};
+                sprite = {
+                    {}, {toFloat(spriteTexture->width), toFloat(spriteTexture->height)}, spriteTexture, PI / 2, 0.5f
+                };
                 velocity = {{0, 0}};
                 maxSpeed = {450.0f, 450.0f};
                 rotation = {0.0f};
@@ -43,5 +47,6 @@ void SpawnPlayer(const flecs::world& world) {
                 thrustLevel = {0.0f};
                 targetRotation = {0.0f};
                 speed = {0.0f, 0.0f};
+                mouseCollider = {sprite.GetCenterOrigin().x / 2};
             });
 }
