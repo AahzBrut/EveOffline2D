@@ -1,18 +1,18 @@
 #pragma once
 #include <flecs.h>
 
+#include "BackgroundRender/RenderBackgroundSystem.h"
+#include "GUI/BeginImGuiSystem.h"
+#include "GUI/DebugUISystem.h"
+#include "GUI/EndImGuiSystem.h"
+#include "Input/CameraControlSystem.h"
+#include "Input/InputSystem.h"
 #include "LocalRender/BeginCameraSystem.h"
-#include "Impl/BeginImGuiSystem.h"
-#include "Impl/CameraControlSystem.h"
-#include "Impl/DebugUISystem.h"
-#include "Impl/EndCameraSystem.h"
-#include "Impl/EndImGuiSystem.h"
-#include "Impl/InputSystem.h"
-#include "Impl/MovementSystem.h"
-#include "Impl/RenderBackgroundSystem.h"
-#include "Impl/RenderSpriteSystem.h"
-#include "Impl/RotationSytem.h"
-#include "Impl/ThrustSystem.h"
+#include "LocalRender/EndCameraSystem.h"
+#include "LocalRender/RenderSpriteSystem.h"
+#include "Movement/MovementSystem.h"
+#include "Movement/RotationSytem.h"
+#include "Movement/ThrustSystem.h"
 
 
 inline void RegisterSystems(const flecs::world &world) {

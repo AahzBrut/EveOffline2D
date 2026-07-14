@@ -1,4 +1,4 @@
-#include "../Impl/EndCameraSystem.h"
+#include "EndCameraSystem.h"
 
 #include "Logger.h"
 #include "raylib.h"
