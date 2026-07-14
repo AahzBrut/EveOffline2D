@@ -18,7 +18,7 @@
 void SpawnNPC(const flecs::world& world) {
     const auto assetManager = &world.get_mut<AssetManager>();
 
-    world
+    const auto npc = world
         .entity()
         .insert([assetManager](
             Position& position,
@@ -48,4 +48,5 @@ void SpawnNPC(const flecs::world& world) {
                 speed = {0.0f, 0.0f};
                 mouseCollider = {sprite.GetCenterOrigin().x / 2};
             });
+    npc.set_doc_name("NPC");
 }

@@ -4,9 +4,11 @@
 #include <raymath.h>
 
 #include "Components/Impl/Position.h"
+#include "Components/Impl/Selected.h"
 #include "Components/Impl/TargetPosition.h"
 #include "Components/Impl/TargetRotation.h"
 #include "Components/Impl/ThrustLevel.h"
+#include "Utils/EntityNames.h"
 
 
 void InputSystem(const flecs::world& world) {
@@ -19,7 +21,7 @@ void InputSystem(const flecs::world& world) {
         .run([](const flecs::iter& it) {
             const auto currentTime = GetTime();
 
-            const auto player = it.world().entity("Player");
+            const auto player = it.world().entity(EntityNames::PlayerEntity);
             auto thrustLevel = player.get<ThrustLevel>().value;
 
             if (IsKeyPressed(KEY_ONE)) thrustLevel = 0.1f;
@@ -35,6 +37,7 @@ void InputSystem(const flecs::world& world) {
             player.set<ThrustLevel>({thrustLevel});
 
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                it.world().set<Selected>({});
                 if (currentTime - lastClick <= doubleClickThreshold) {
                     const Camera2D camera = it.world().get<Camera2D>();
                     const Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), camera);

@@ -7,6 +7,7 @@
 #include "GUI/EndImGuiSystem.h"
 #include "Input/CameraControlSystem.h"
 #include "Input/InputSystem.h"
+#include "Input/SelectObjectSystem.h"
 #include "LocalRender/BeginCameraSystem.h"
 #include "LocalRender/EndCameraSystem.h"
 #include "LocalRender/RenderSpriteSystem.h"
@@ -18,6 +19,7 @@
 inline void RegisterSystems(const flecs::world &world) {
     CameraControlSystem(world);
     InputSystem(world);
+    SelectObjectSystem(world);
     RotationSystem(world);
     ThrustSystem(world);
     MovementSystem(world);

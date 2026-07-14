@@ -11,6 +11,7 @@
 #include "Spawners/SpawnPlayer.h"
 #include "Spawners/SpawnShip.h"
 #include "Systems/Systems.h"
+#include "Utils/EntityNames.h"
 
 
 // ReSharper disable once CppMemberFunctionMayBeStatic

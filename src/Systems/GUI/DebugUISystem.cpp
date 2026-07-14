@@ -5,9 +5,11 @@
 
 #include "raymath.h"
 #include "Components/Impl/Rotation.h"
+#include "Components/Impl/Selected.h"
 #include "Components/Impl/TargetRotation.h"
 #include "Components/Impl/ThrustLevel.h"
 #include "Components/Impl/Velocity.h"
+#include "Utils/EntityNames.h"
 
 
 void DebugUISystem(const flecs::world& world) {
@@ -17,7 +19,7 @@ void DebugUISystem(const flecs::world& world) {
         .run([](const flecs::iter& it) {
             ImGui::Begin("Debug Info");
 
-            const auto player = it.world().entity("Player");
+            const auto player = it.world().entity(EntityNames::PlayerEntity);
 
             if (ImGui::BeginTable("Debug values", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders)) {
                 ImGui::TableSetupColumn("Name");
@@ -57,6 +59,14 @@ void DebugUISystem(const flecs::world& world) {
                 ImGui::Text("Rotation");
                 ImGui::TableNextColumn();
                 ImGui::Text("%.0f", rotation * RAD2DEG);
+
+                const auto selectedObject = it.world().get<Selected>();
+                const auto selectedObjectName = selectedObject.entity.is_valid() ? selectedObject.entity.doc_name() : "NONE";
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+                ImGui::Text("Selected object");
+                ImGui::TableNextColumn();
+                ImGui::Text("%s", selectedObjectName);
 
                 ImGui::EndTable();
             }

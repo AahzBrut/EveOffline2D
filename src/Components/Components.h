@@ -8,6 +8,7 @@
 #include "Impl/MouseCollider.h"
 #include "Impl/Position.h"
 #include "Impl/Rotation.h"
+#include "Impl/Selected.h"
 #include "Impl/Speed.h"
 #include "Impl/Sprite.h"
 #include "Impl/TargetPosition.h"
@@ -35,4 +36,6 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<ThrustLevel>();
     world.component<Speed>();
     world.component<MouseCollider>();
+    world.component<Selected>().add(flecs::Singleton);
+    world.set<Selected>({});
 }

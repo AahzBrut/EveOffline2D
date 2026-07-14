@@ -4,6 +4,7 @@
 
 #include "Logger.h"
 #include "Components/Impl/Position.h"
+#include "Utils/EntityNames.h"
 
 
 void CameraControlSystem(const flecs::world &world) {
@@ -17,7 +18,7 @@ void CameraControlSystem(const flecs::world &world) {
                     camera->zoom *= zoomDelta;
                 }
 
-                if (const auto player = it.world().entity("Player"); player.has<Position>()) {
+                if (const auto player = it.world().entity(EntityNames::PlayerEntity); player.has<Position>()) {
                     const auto & [x, y] = player.get<Position>();
                     //camera->target.x = toFloat(x);
                     //camera->target.y = toFloat(y);
