@@ -50,9 +50,7 @@ void Application::Run() {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        rlImGuiBegin();
         world.progress(GetFrameTime());
-        rlImGuiEnd();
 
         EndDrawing();
     }

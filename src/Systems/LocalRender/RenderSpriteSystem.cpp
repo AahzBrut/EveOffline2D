@@ -1,4 +1,4 @@
-#include "RenderSpriteSystem.h"
+#include "../Impl/RenderSpriteSystem.h"
 
 #include <raylib.h>
 
