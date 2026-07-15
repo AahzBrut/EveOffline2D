@@ -39,7 +39,7 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<ThrustLevel>();
     world.component<Speed>();
     world.component<MouseCollider>();
-    world.component<MovementState>().add(flecs::DontFragment).add(flecs::Exclusive);
+    world.component<MovementState>().add(flecs::Exclusive);
     world.component<IdleState>();
     world.component<ApproachState>();
     world.component<Selected>().add(flecs::Singleton);

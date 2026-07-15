@@ -16,17 +16,16 @@
 
 void ApproachSystem(const flecs::world& world) {
     world
-        .system<TargetRotation, ThrustLevel, const Position, const Speed,
+        .system<flecs::pair<MovementState, ApproachState>, TargetRotation, ThrustLevel, const Position, const Speed,
                 const Acceleration>(__func__)
-        .with<MovementState, ApproachState>()
         .kind(flecs::OnUpdate)
         .each([](const flecs::iter& it, const size_t index,
+                 const ApproachState& command,
                  TargetRotation& targetRotation,
                  ThrustLevel& thrustLevel,
                  const Position& position,
                  const Speed& speed,
                  const Acceleration& acceleration) {
-            const auto command = it.entity(index).get<MovementState, ApproachState>();
             if (command.entity.is_valid()) {
                 const auto targetPosition = command.entity.get<Position>();
                 const auto vectorToTarget = targetPosition.Vector2() - position.Vector2();
