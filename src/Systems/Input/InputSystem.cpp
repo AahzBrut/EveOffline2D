@@ -3,6 +3,8 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include "imgui.h"
+#include "Components/Commands/ApproachCommand.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Selected.h"
 #include "Components/Impl/TargetPosition.h"
@@ -36,8 +38,10 @@ void InputSystem(const flecs::world& world) {
             if (IsKeyPressed(KEY_ZERO)) thrustLevel = 0.0f;
             player.set<ThrustLevel>({thrustLevel});
 
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            const ImGuiIO& io = ImGui::GetIO();
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !io.WantCaptureMouse) {
                 it.world().set<Selected>({});
+                player.remove<ApproachCommand>();
                 if (currentTime - lastClick <= doubleClickThreshold) {
                     const Camera2D camera = it.world().get<Camera2D>();
                     const Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), camera);

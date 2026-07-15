@@ -36,7 +36,7 @@ void SpawnPlayer(const flecs::world& world) {
                             MouseCollider& mouseCollider
                         ) {
                                 const auto spriteTexture = assetManager->GetTexture(ShipSprite);
-                                position = {300, 300};
+                                position = {300, 500};
                                 sprite = {
                                     {}, {toFloat(spriteTexture->width), toFloat(spriteTexture->height)}, spriteTexture,
                                     PI / 2, 0.5f

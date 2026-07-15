@@ -11,12 +11,11 @@
 #include "Spawners/SpawnPlayer.h"
 #include "Spawners/SpawnShip.h"
 #include "Systems/Systems.h"
-#include "Utils/EntityNames.h"
 
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void Application::Initialize() const { // NOLINT(*-convert-member-functions-to-static)
-    //SetConfigFlags(FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Eve offline 2D");
     InitAudioDevice();
 
