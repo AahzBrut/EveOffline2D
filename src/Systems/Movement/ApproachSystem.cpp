@@ -1,5 +1,6 @@
 #include "ApproachSystem.h"
 
+#include <algorithm>
 #include <cmath>
 #include <raymath.h>
 
@@ -25,13 +26,38 @@ void ApproachSystem(const flecs::world& world) {
             if (command.entity.is_valid()) {
                 const auto targetPosition = command.entity.get<Position>();
                 const auto vectorToTarget = targetPosition.Vector2() - position.Vector2();
-                const auto directionToTarget = Vector2Normalize(vectorToTarget);
-                const auto distanceToTargetSqr = Vector2LengthSqr(vectorToTarget);
-                const auto distanceToGo = distanceToTargetSqr - command.distance * command.distance;
+                const auto distanceToTarget = Vector2Length(vectorToTarget);
 
+                const float holdDistance = command.distance;
+                const float currentSpeed = speed.effectiveValue;
+                const auto brakeDistance = currentSpeed * currentSpeed / (2.0f * acceleration.effectiveValue);
 
-                targetRotation.value = atan2f(vectorToTarget.y, vectorToTarget.x);
+                if (distanceToTarget < holdDistance) {
+                    targetRotation.value = atan2f(-vectorToTarget.y, -vectorToTarget.x);
+                    const float maxRetreatDistance = holdDistance - brakeDistance;
+
+                    if (distanceToTarget < maxRetreatDistance) {
+                        thrustLevel.value = (distanceToTarget - holdDistance) / brakeDistance;
+                        thrustLevel.value = std::clamp(thrustLevel.value, 0.0f, 1.0f);
+                    } else {
+                        thrustLevel.value = 0.0f;
+                    }
+                } else {
+                    targetRotation.value = atan2f(vectorToTarget.y, vectorToTarget.x);
+
+                    const float minApproachDistance = holdDistance + brakeDistance;
+
+                    if (distanceToTarget > holdDistance + brakeDistance) {
+                        thrustLevel.value = 1.0f;
+                    } else if (distanceToTarget > minApproachDistance) {
+                        thrustLevel.value = (distanceToTarget - minApproachDistance) / brakeDistance;
+                        thrustLevel.value = std::clamp(thrustLevel.value, 0.0f, 1.0f);
+                    } else {
+                        thrustLevel.value = 0.0f;
+                    }
+                }
             } else {
+                thrustLevel.value = 0.0f;
                 it.entity(index).remove<ApproachCommand>();
             }
         });

@@ -2,7 +2,9 @@
 
 #include <imgui.h>
 
+#include "raymath.h"
 #include "Components/Commands/ApproachCommand.h"
+#include "Components/Impl/Position.h"
 #include "Components/Impl/Selected.h"
 #include "Utils/EntityNames.h"
 
@@ -20,6 +22,9 @@ void ControlPanelSystem(const flecs::world& world) {
             ImGui::Text("%s", selectedObjectName);
 
             if (selectedObject.IsValid()) {
+                const auto distanceToTarget = Vector2Distance(selectedObject.entity.get<Position>().Vector2(), player.get<Position>().Vector2());
+                ImGui::Text("%.0f m", distanceToTarget);
+
                 if (ImGui::Button("Approach")) {
                     player.set<ApproachCommand>({selectedObject.entity, 200});
                 }
