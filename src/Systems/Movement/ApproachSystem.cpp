@@ -4,7 +4,9 @@
 #include <cmath>
 #include <raymath.h>
 
-#include "Components/Commands/ApproachCommand.h"
+#include "Components/Commands/ApproachState.h"
+#include "Components/Commands/IdleState.h"
+#include "Components/Commands/MovementState.h"
 #include "Components/Impl/Acceleration.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Speed.h"
@@ -14,15 +16,17 @@
 
 void ApproachSystem(const flecs::world& world) {
     world
-        .system<const ApproachCommand, TargetRotation, ThrustLevel, const Position, const Speed, const Acceleration>(__func__)
+        .system<TargetRotation, ThrustLevel, const Position, const Speed,
+                const Acceleration>(__func__)
+        .with<MovementState, ApproachState>()
         .kind(flecs::OnUpdate)
         .each([](const flecs::iter& it, const size_t index,
-                 const ApproachCommand& command,
                  TargetRotation& targetRotation,
                  ThrustLevel& thrustLevel,
                  const Position& position,
                  const Speed& speed,
                  const Acceleration& acceleration) {
+            const auto command = it.entity(index).get<MovementState, ApproachState>();
             if (command.entity.is_valid()) {
                 const auto targetPosition = command.entity.get<Position>();
                 const auto vectorToTarget = targetPosition.Vector2() - position.Vector2();
@@ -58,7 +62,7 @@ void ApproachSystem(const flecs::world& world) {
                 }
             } else {
                 thrustLevel.value = 0.0f;
-                it.entity(index).remove<ApproachCommand>();
+                it.entity(index).add<MovementState, IdleState>();
             }
         });
 }

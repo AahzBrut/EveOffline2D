@@ -3,6 +3,8 @@
 #include "defs.h"
 #include "AssetManager/AssetManager.h"
 #include "AssetManager/Assets.h"
+#include "Components/Commands/IdleState.h"
+#include "Components/Commands/MovementState.h"
 #include "Components/Impl/Acceleration.h"
 #include "Components/Impl/MaxRotationSpeed.h"
 #include "Components/Impl/MaxSpeed.h"
@@ -51,5 +53,6 @@ void SpawnPlayer(const flecs::world& world) {
                                 speed = {0.0f, 0.0f};
                                 mouseCollider = {sprite.GetCenterOrigin().x / 2};
                             });
+    player.add<MovementState, IdleState>();
     player.set_doc_name("Player");
 }

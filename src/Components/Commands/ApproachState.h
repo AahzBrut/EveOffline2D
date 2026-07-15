@@ -1,7 +1,7 @@
 #pragma once
 #include <flecs.h>
 
-struct ApproachCommand {
+struct ApproachState {
     flecs::entity entity;
-    float distance;
+    float distance = 0.0f;
 };

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "AudioManager/AudioManager.h"
-#include "Commands/ApproachCommand.h"
+#include "Commands/ApproachState.h"
+#include "Commands/IdleState.h"
+#include "Commands/MovementState.h"
 #include "Impl/Acceleration.h"
 #include "Impl/MaxRotationSpeed.h"
 #include "Impl/MaxSpeed.h"
@@ -37,7 +39,9 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<ThrustLevel>();
     world.component<Speed>();
     world.component<MouseCollider>();
-    world.component<ApproachCommand>();
+    world.component<MovementState>().add(flecs::DontFragment).add(flecs::Exclusive);
+    world.component<IdleState>();
+    world.component<ApproachState>();
     world.component<Selected>().add(flecs::Singleton);
     world.set<Selected>({});
 }
