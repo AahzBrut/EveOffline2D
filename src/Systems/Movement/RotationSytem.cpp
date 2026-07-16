@@ -1,6 +1,5 @@
 #include "RotationSytem.h"
 
-#include <raylib.h>
 
 #include "Logger.h"
 #include "Components/Impl/MaxRotationSpeed.h"
@@ -16,8 +15,7 @@ void RotationSystem(const flecs::world& world) {
                  Rotation& rotation, const TargetRotation& targetRotation, const MaxRotationSpeed& maxRotationSpeed) {
             const float dt = it.delta_time();
             float angleDiff = targetRotation.value - rotation.value;
-            while (angleDiff > PI) angleDiff -= 2 * PI;
-            while (angleDiff < -PI) angleDiff += 2 * PI;
+            angleDiff = atan2f(sinf(angleDiff), cosf(angleDiff));
 
             if (std::abs(angleDiff) < maxRotationSpeed.effectiveValue * dt) {
                 rotation.value = targetRotation.value;

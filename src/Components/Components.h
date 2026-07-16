@@ -1,5 +1,7 @@
 #pragma once
 
+#include <raylib.h>
+
 #include "AudioManager/AudioManager.h"
 #include "Commands/ApproachState.h"
 #include "Commands/IdleState.h"

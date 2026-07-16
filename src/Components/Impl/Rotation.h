@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cmath>
+#include <raylib.h>
+
 
 struct Rotation {
     float value;
