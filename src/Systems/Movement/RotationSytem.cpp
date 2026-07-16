@@ -7,6 +7,12 @@
 #include "Components/Impl/TargetRotation.h"
 
 
+inline float NormalizeAngle(float angle) {
+    while (angle < -PI) angle += 2 * PI;
+    while (angle > PI) angle -= 2 * PI;
+    return angle;
+}
+
 void RotationSystem(const flecs::world& world) {
     world
         .system<Rotation, const TargetRotation, const MaxRotationSpeed>(__func__)
@@ -14,13 +20,14 @@ void RotationSystem(const flecs::world& world) {
         .each([](const flecs::iter& it, const size_t _,
                  Rotation& rotation, const TargetRotation& targetRotation, const MaxRotationSpeed& maxRotationSpeed) {
             const auto dt = it.delta_time();
-            auto angleDiff = targetRotation.value - rotation.value;
-            angleDiff = atan2f(sinf(angleDiff), cosf(angleDiff));
+            const auto angleDiff = NormalizeAngle(targetRotation.value - rotation.value);
 
             if (std::abs(angleDiff) < maxRotationSpeed.effectiveValue * dt) {
                 rotation.value = targetRotation.value;
             } else {
-                rotation.value += maxRotationSpeed.effectiveValue * dt * (angleDiff > 0 ? 1.0f : -1.0f);
+                rotation.value = NormalizeAngle(
+                    rotation.value + maxRotationSpeed.effectiveValue * dt * (angleDiff > 0 ? 1.0f : -1.0f)
+                );
             }
         });
 }
