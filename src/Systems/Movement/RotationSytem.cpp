@@ -22,9 +22,5 @@ void RotationSystem(const flecs::world& world) {
             } else {
                 rotation.value += maxRotationSpeed.effectiveValue * dt * (angleDiff > 0 ? 1.0f : -1.0f);
             }
-
-            // Normalize to [-PI, PI]
-            while (rotation.value > PI) rotation.value -= 2 * PI;
-            while (rotation.value < -PI) rotation.value += 2 * PI;
         });
 }
