@@ -26,29 +26,24 @@ void OrbitSystem(const flecs::world& world) {
                 const auto vectorToTarget = targetPosition.Vector2() - position.Vector2();
                 const float distanceToTarget = Vector2Length(vectorToTarget);
                 const auto normVectorToTarget = Vector2Normalize(vectorToTarget);
+                const auto shipDirection = rotation.ForwardVector();
 
                 // Two perpendicular points on orbit (left=CCW tangent, right=CW tangent)
                 const Vector2 leftOrbitPoint = targetPosition.Vector2() + Vector2{-normVectorToTarget.y, normVectorToTarget.x} * command.distance;
                 const Vector2 rightOrbitPoint = targetPosition.Vector2() + Vector2{normVectorToTarget.y, -normVectorToTarget.x} * command.distance;
 
-                // Choose orbit point by minimal rotation angle
-                const float angleToLeft = atan2f(leftOrbitPoint.y - position.Vector2().y, leftOrbitPoint.x - position.Vector2().x);
-                const float angleToRight = atan2f(rightOrbitPoint.y - position.Vector2().y, rightOrbitPoint.x - position.Vector2().x);
-
-                const float currentAngle = rotation.value;
-                float angleDiffLeft = angleToLeft - currentAngle;
-                angleDiffLeft = atan2f(sinf(angleDiffLeft), cosf(angleDiffLeft));
-                float angleDiffRight = angleToRight - currentAngle;
-                angleDiffRight = atan2f(sinf(angleDiffRight), cosf(angleDiffRight));
-
-                const Vector2 targetOrbitPoint = fabsf(angleDiffLeft) <= fabsf(angleDiffRight) ? leftOrbitPoint : rightOrbitPoint;
+                // Choose orbit point: if target is on left side -> fly left (CCW), else fly right (CW)
+                const float crossProduct = shipDirection.x * vectorToTarget.y - shipDirection.y * vectorToTarget.x;
+                const Vector2 targetOrbitPoint = crossProduct > 0.0f ? leftOrbitPoint : rightOrbitPoint;
 
                 float orbitAngle;
                 if (distanceToTarget < command.distance) {
-                    // On orbit: fly tangent (CCW = left tangent)
-                    orbitAngle = atan2f(-vectorToTarget.x, vectorToTarget.y);
+                    // On orbit: fly tangent
+                    orbitAngle = crossProduct > 0.0f
+                                     ? atan2f(-vectorToTarget.x, vectorToTarget.y)  // CCW tangent
+                                     : atan2f(vectorToTarget.x, -vectorToTarget.y); // CW tangent
                 } else {
-                    // Not on orbit yet: fly to orbit point requiring minimal rotation
+                    // Not on orbit yet: fly to chosen orbit point
                     const Vector2 toTargetPoint = targetOrbitPoint - position.Vector2();
                     orbitAngle = atan2f(toTargetPoint.y, toTargetPoint.x);
                 }
