@@ -14,7 +14,7 @@ void MovementSystem(const flecs::world& world) {
     world
         .system<Position, VelocityVector, const Speed, const Rotation>(__func__)
         .kind(flecs::OnUpdate)
-        .each([](const flecs::iter& it, const size_t _,
+        .each([](const flecs::iter& it, const size_t,
                  Position& position, VelocityVector& velocity, const Speed& speed, const Rotation& rotation) {
             const float dt = it.delta_time();
 

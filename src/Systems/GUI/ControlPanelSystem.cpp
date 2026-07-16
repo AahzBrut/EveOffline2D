@@ -36,11 +36,14 @@ void ControlPanelSystem(const flecs::world& world) {
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Keep distance")) {
-//                    player.set<MovementState, KeepDistanceState>({selectedObject.entity, 500});
+                    //                    player.set<MovementState, KeepDistanceState>({selectedObject.entity, 500});
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Orbit")) {
                     player.set<MovementState, OrbitState>({selectedObject.entity, 500});
+                }
+                if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal)) {
+                    ImGui::SetItemTooltip("Orbit current object");
                 }
             }
 

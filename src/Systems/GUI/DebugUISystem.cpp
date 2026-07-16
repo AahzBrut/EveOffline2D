@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include <raylib.h>
 
+#include "Logger.h"
 #include "raymath.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"

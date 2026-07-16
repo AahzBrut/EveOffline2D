@@ -13,8 +13,8 @@ void RotationSystem(const flecs::world& world) {
         .kind(flecs::OnUpdate)
         .each([](const flecs::iter& it, const size_t _,
                  Rotation& rotation, const TargetRotation& targetRotation, const MaxRotationSpeed& maxRotationSpeed) {
-            const float dt = it.delta_time();
-            float angleDiff = targetRotation.value - rotation.value;
+            const auto dt = it.delta_time();
+            auto angleDiff = targetRotation.value - rotation.value;
             angleDiff = atan2f(sinf(angleDiff), cosf(angleDiff));
 
             if (std::abs(angleDiff) < maxRotationSpeed.effectiveValue * dt) {
