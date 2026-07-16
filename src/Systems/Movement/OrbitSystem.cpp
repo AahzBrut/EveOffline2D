@@ -29,12 +29,12 @@ void OrbitSystem(const flecs::world& world) {
                 const auto shipDirection = rotation.ForwardVector();
 
                 // Two perpendicular points on orbit (left=CCW tangent, right=CW tangent)
-                const Vector2 leftOrbitPoint = targetPosition.Vector2() + Vector2{-normVectorToTarget.y, normVectorToTarget.x} * command.distance;
-                const Vector2 rightOrbitPoint = targetPosition.Vector2() + Vector2{normVectorToTarget.y, -normVectorToTarget.x} * command.distance;
+                const Vector2 leftOrbitPoint = Vector2{-normVectorToTarget.y, normVectorToTarget.x} * command.distance;
+                const Vector2 rightOrbitPoint = Vector2{normVectorToTarget.y, -normVectorToTarget.x} * command.distance;
 
                 // Choose orbit point: if target is on left side -> fly left (CCW), else fly right (CW)
-                const float crossProduct = shipDirection.x * vectorToTarget.y - shipDirection.y * vectorToTarget.x;
-                const Vector2 targetOrbitPoint = crossProduct > 0.0f ? leftOrbitPoint : rightOrbitPoint;
+                const float crossProduct = shipDirection.x * normVectorToTarget.y - shipDirection.y * normVectorToTarget.x;
+                const Vector2 targetOrbitPoint = crossProduct > 0.0f ? rightOrbitPoint : leftOrbitPoint;
 
                 float orbitAngle;
                 if (distanceToTarget < command.distance) {
@@ -44,7 +44,7 @@ void OrbitSystem(const flecs::world& world) {
                                      : atan2f(vectorToTarget.x, -vectorToTarget.y); // CW tangent
                 } else {
                     // Not on orbit yet: fly to chosen orbit point
-                    const Vector2 toTargetPoint = targetOrbitPoint - position.Vector2();
+                    const Vector2 toTargetPoint = Vector2Normalize(vectorToTarget + targetOrbitPoint);
                     orbitAngle = atan2f(toTargetPoint.y, toTargetPoint.x);
                 }
 
