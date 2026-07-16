@@ -6,6 +6,7 @@
 #include "raymath.h"
 #include "Components/Commands/ApproachState.h"
 #include "Components/Commands/MovementState.h"
+#include "Components/Commands/OrbitState.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Selected.h"
 #include "Utils/EntityNames.h"
@@ -34,9 +35,13 @@ void ControlPanelSystem(const flecs::world& world) {
                     player.set<MovementState, ApproachState>({selectedObject.entity, 200});
                 }
                 ImGui::SameLine();
-                ImGui::Button("Keep distance");
+                if (ImGui::Button("Keep distance")) {
+//                    player.set<MovementState, KeepDistanceState>({selectedObject.entity, 500});
+                }
                 ImGui::SameLine();
-                ImGui::Button("Orbit");
+                if (ImGui::Button("Orbit")) {
+                    player.set<MovementState, OrbitState>({selectedObject.entity, 500});
+                }
             }
 
             ImGui::End();

@@ -14,6 +14,7 @@
 #include "LocalRender/RenderSpriteSystem.h"
 #include "Movement/ApproachSystem.h"
 #include "Movement/MovementSystem.h"
+#include "Movement/OrbitSystem.h"
 #include "Movement/RotationSytem.h"
 #include "Movement/ThrustSystem.h"
 
@@ -22,6 +23,7 @@ inline void RegisterSystems(const flecs::world &world) {
     CameraControlSystem(world);
     InputSystem(world);
     ApproachSystem(world);
+    OrbitSystem(world);
     SelectObjectSystem(world);
     RotationSystem(world);
     ThrustSystem(world);

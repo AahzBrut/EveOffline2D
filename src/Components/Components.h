@@ -4,6 +4,7 @@
 #include "Commands/ApproachState.h"
 #include "Commands/IdleState.h"
 #include "Commands/MovementState.h"
+#include "Commands/OrbitState.h"
 #include "Impl/Acceleration.h"
 #include "Impl/MaxRotationSpeed.h"
 #include "Impl/MaxSpeed.h"
@@ -42,6 +43,7 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<MovementState>().add(flecs::Exclusive);
     world.component<IdleState>();
     world.component<ApproachState>();
+    world.component<OrbitState>();
     world.component<Selected>().add(flecs::Singleton);
     world.set<Selected>({});
 }
