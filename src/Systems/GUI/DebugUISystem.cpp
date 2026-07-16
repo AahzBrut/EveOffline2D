@@ -4,6 +4,7 @@
 #include <raylib.h>
 
 #include "raymath.h"
+#include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"
 #include "Components/Impl/Selected.h"
 #include "Components/Impl/TargetRotation.h"
@@ -61,12 +62,28 @@ void DebugUISystem(const flecs::world& world) {
                 ImGui::Text("%.0f", rotation * RAD2DEG);
 
                 const auto selectedObject = it.world().get<Selected>();
-                const auto selectedObjectName = selectedObject.entity.is_valid() ? selectedObject.entity.doc_name() : "NONE";
+                const auto selectedObjectName = selectedObject.entity.is_valid()
+                                                    ? selectedObject.entity.doc_name()
+                                                    : "NONE";
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
                 ImGui::Text("Selected object");
                 ImGui::TableNextColumn();
                 ImGui::Text("%s", selectedObjectName);
+
+                static float lastAngle = 0.0f;
+                const float currentAngle = selectedObject.entity.is_valid()
+                                               ? Vector2Angle(player.get<Rotation>().ForwardVector(),
+                                                              Vector2Normalize(
+                                                                  selectedObject.entity.get<Position>().Vector2() -
+                                                                  player.get<Position>().Vector2()))
+                                               : 0.0f;
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+                ImGui::Text("Selected object angular velocity");
+                ImGui::TableNextColumn();
+                ImGui::Text("%f", abs(currentAngle - lastAngle) * RAD2DEG / it.delta_time());
+                lastAngle = currentAngle;
 
                 ImGui::EndTable();
             }
