@@ -6,6 +6,7 @@
 #include "GUI/ControlPanelSystem.h"
 #include "GUI/DebugUISystem.h"
 #include "GUI/EndImGuiSystem.h"
+#include "GUI/HudSystem.h"
 #include "Input/CameraControlSystem.h"
 #include "Input/InputSystem.h"
 #include "Input/SelectObjectSystem.h"
@@ -32,6 +33,7 @@ inline void RegisterSystems(const flecs::world &world) {
     BeginCameraSystem(world);
     RenderSpriteSystem(world);
     EndCameraSystem(world);
+    HudSystem(world);
     BeginImGuiSystem(world);
     ControlPanelSystem(world);
     DebugUISystem(world);
