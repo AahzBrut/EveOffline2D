@@ -5,6 +5,7 @@
 
 #include "Logger.h"
 #include "raymath.h"
+#include "Components/Impl/Capacitor.h"
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"
 #include "Components/Impl/Selected.h"
@@ -33,6 +34,14 @@ void DebugUISystem(const flecs::world& world) {
                 ImGui::Text("FPS");
                 ImGui::TableNextColumn();
                 ImGui::Text("%d", GetFPS());
+
+                const auto capacitorCapacity = player.get<Capacitor>().currentValue;
+                const auto capacitorPercent = 100.0f * capacitorCapacity / player.get<Capacitor>().currentMaxValue;
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+                ImGui::Text("Capacitor capacity");
+                ImGui::TableNextColumn();
+                ImGui::Text("%.0f (%.0f%)", capacitorCapacity, capacitorPercent);
 
                 const auto thrustLevel = player.get<ThrustLevel>().value;
                 ImGui::TableNextRow();

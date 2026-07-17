@@ -8,6 +8,7 @@
 #include "Commands/MovementState.h"
 #include "Commands/OrbitState.h"
 #include "Impl/Acceleration.h"
+#include "Impl/Capacitor.h"
 #include "Impl/MaxRotationSpeed.h"
 #include "Impl/MaxSpeed.h"
 #include "Impl/ModuleSlot.h"
@@ -48,4 +49,5 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<OrbitState>();
     world.component<Selected>().add(flecs::Singleton);
     world.set<Selected>({});
+    world.component<Capacitor>();
 }

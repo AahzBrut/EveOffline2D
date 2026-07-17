@@ -6,6 +6,7 @@
 #include "Components/Commands/IdleState.h"
 #include "Components/Commands/MovementState.h"
 #include "Components/Impl/Acceleration.h"
+#include "Components/Impl/Capacitor.h"
 #include "Components/Impl/MaxRotationSpeed.h"
 #include "Components/Impl/MaxSpeed.h"
 #include "Components/Impl/MouseCollider.h"
@@ -35,7 +36,8 @@ void SpawnPlayer(const flecs::world& world) {
                             TargetRotation& targetRotation,
                             ThrustLevel& thrustLevel,
                             Speed& speed,
-                            MouseCollider& mouseCollider
+                            MouseCollider& mouseCollider,
+                            Capacitor& capacitor
                         ) {
                                 const auto spriteTexture = assetManager->GetTexture(ShipSprite);
                                 position = {300, 500};
@@ -52,6 +54,7 @@ void SpawnPlayer(const flecs::world& world) {
                                 targetRotation = {0.0f};
                                 speed = {0.0f, 0.0f};
                                 mouseCollider = {sprite.GetCenterOrigin().x / 2};
+                                capacitor = {187.5, 187.5, 250, 250, 0};
                             });
     player.add<MovementState, IdleState>();
     player.set_doc_name("Player");
