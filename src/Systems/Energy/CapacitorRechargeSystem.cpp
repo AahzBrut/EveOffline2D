@@ -7,6 +7,7 @@
 #include "Components/Impl/Capacitor.h"
 
 constexpr float LinearRechargeThreshold = 0.05f;
+constexpr float LinearRechargeMultiplier = 15.0f;
 
 void CapacitorRechargeSystem(const flecs::world& world) {
     world
@@ -18,7 +19,7 @@ void CapacitorRechargeSystem(const flecs::world& world) {
                 const auto currentChargePercent = capacitor.currentValue / capacitor.currentMaxValue;
                 float rechargeRate = 0.0f;
                 if (currentChargePercent < LinearRechargeThreshold) {
-                    rechargeRate = (currentChargePercent * 15.0f + 0.1f) * (capacitor.currentMaxValue / capacitor.currentRechargeTime);
+                    rechargeRate = (currentChargePercent * LinearRechargeMultiplier + 0.1f) * (capacitor.currentMaxValue / capacitor.currentRechargeTime);
                 } else {
                     rechargeRate = capacitor.currentMaxValue / capacitor.currentRechargeTime * 10.0f *
                         std::sqrtf(currentChargePercent) * (1 - currentChargePercent);
