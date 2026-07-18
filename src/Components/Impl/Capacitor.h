@@ -7,4 +7,6 @@ struct Capacitor {
     float baseMaxValue;
     float currentMaxValue;
     float currentValue;
+
+    float GetCurrentChargeLevelPercent() const { return  100.0f * currentValue / currentMaxValue; }
 };

@@ -6,6 +6,7 @@
 
 #include "defs.h"
 #include "raymath.h"
+#include "Components/Impl/Capacitor.h"
 #include "Components/Impl/Velocity.h"
 #include "Utils/EntityNames.h"
 
@@ -45,5 +46,11 @@ void HudSystem(const flecs::world& world) {
             const auto textSize = MeasureText(speedStr.c_str(), 22.0f);
             DrawText(speedStr.c_str(), centerX - textSize / 2,
                      toFloat(center.y + structureInnerRadius) + 5 * radiusPercent, 22.0f, BLACK);
+
+            const auto capacitorChargePercent = player.get<Capacitor>().GetCurrentChargeLevelPercent();
+            const auto capacitorStr = std::format("{:L}%", roundf(capacitorChargePercent));
+            const auto capacitorTextSize = MeasureText(capacitorStr.c_str(), 32.0f);
+            DrawText(capacitorStr.c_str(), centerX - capacitorTextSize / 2,
+                     toFloat(center.y) - 16.0f, 32.0f, BLACK);
         });
 }

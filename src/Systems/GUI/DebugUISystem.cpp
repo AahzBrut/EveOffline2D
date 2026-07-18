@@ -36,7 +36,7 @@ void DebugUISystem(const flecs::world& world) {
                 ImGui::Text("%d", GetFPS());
 
                 const auto capacitorCapacity = player.get<Capacitor>().currentValue;
-                const auto capacitorPercent = 100.0f * capacitorCapacity / player.get<Capacitor>().currentMaxValue;
+                const auto capacitorPercent = player.get<Capacitor>().GetCurrentChargeLevelPercent();
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
                 ImGui::Text("Capacitor capacity");
