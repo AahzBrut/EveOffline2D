@@ -2,7 +2,7 @@
 #include <flecs.h>
 
 #include "BackgroundRender/RenderBackgroundSystem.h"
-#include "Energy/CapacitorRestoreSystem.h"
+#include "Energy/CapacitorRechargeSystem.h"
 #include "GUI/BeginImGuiSystem.h"
 #include "GUI/ControlPanelSystem.h"
 #include "GUI/DebugUISystem.h"
@@ -29,7 +29,7 @@ inline void RegisterSystems(const flecs::world &world) {
     SelectObjectSystem(world);
     RotationSystem(world);
     ThrustSystem(world);
-    CapacitorRestoreSystem(world);
+    CapacitorRechargeSystem(world);
     MovementSystem(world);
     RenderBackgroundSystem(world);
     BeginCameraSystem(world);

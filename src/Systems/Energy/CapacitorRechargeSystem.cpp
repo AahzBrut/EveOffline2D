@@ -1,4 +1,4 @@
-#include "CapacitorRestoreSystem.h"
+#include "CapacitorRechargeSystem.h"
 
 #include <algorithm>
 #include <cmath>
@@ -8,7 +8,7 @@
 
 constexpr float LinearRechargeThreshold = 0.05f;
 
-void CapacitorRestoreSystem(const flecs::world& world) {
+void CapacitorRechargeSystem(const flecs::world& world) {
     world
         .system<Capacitor>(__func__)
         .kind(flecs::OnUpdate)
@@ -18,9 +18,9 @@ void CapacitorRestoreSystem(const flecs::world& world) {
                 const auto currentChargePercent = capacitor.currentValue / capacitor.currentMaxValue;
                 float rechargeRate = 0.0f;
                 if (currentChargePercent < LinearRechargeThreshold) {
-                    rechargeRate = 0.1f * (capacitor.currentMaxValue / capacitor.currentRechargeTime);
+                    rechargeRate = (currentChargePercent * 15.0f + 0.1f) * (capacitor.currentMaxValue / capacitor.currentRechargeTime);
                 } else {
-                    rechargeRate = capacitor.currentMaxValue / capacitor.currentRechargeTime * 10 *
+                    rechargeRate = capacitor.currentMaxValue / capacitor.currentRechargeTime * 10.0f *
                         std::sqrtf(currentChargePercent) * (1 - currentChargePercent);
                     }
                 capacitor.currentValue = std::min(capacitor.currentValue + rechargeRate * dt,
