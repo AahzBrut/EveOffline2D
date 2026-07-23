@@ -7,6 +7,7 @@
 #include "defs.h"
 #include "raymath.h"
 #include "Components/Impl/Capacitor.h"
+#include "Components/Impl/MaxSpeed.h"
 #include "Components/Impl/Velocity.h"
 #include "Utils/EntityNames.h"
 
@@ -32,22 +33,36 @@ void HudSystem(const flecs::world& world) {
             const auto structureOuterRadius = armorInnerRadius - 2 * radiusPercent;
             const auto structureInnerRadius = structureOuterRadius - 12 * radiusPercent;
 
-            DrawCircle(centerX, centerY, radius, BLACK);
-            DrawRing(center, shieldInnerRadius, radius, -180.0f, 0.0f, 32, LIGHTGRAY);
-            DrawRing(center, armorInnerRadius, armorOuterRadius, -180.0f, 0.0f, 32, LIGHTGRAY);
-            DrawRing(center, structureInnerRadius, structureOuterRadius, -180.0f, 0.0f, 32, LIGHTGRAY);
-            DrawCircle(centerX, centerY, 50.0f * radiusPercent, GOLD);
-            DrawRing(center, structureInnerRadius, radius, 40.0f, 140.0f, 32, GRAY);
-
             const auto player = it.world().entity(EntityNames::PlayerEntity);
             const auto speed = Vector2Length(player.get<VelocityVector>().velocity);
+            const auto maxSpeed = player.get<MaxSpeed>().effectiveValue;
+            const auto speedPercent = speed / maxSpeed;
+            const auto capacitorChargePercent = player.get<Capacitor>().GetCurrentChargeLevelPercent();
+
+            // BACKGROUND
+            DrawCircle(centerX, centerY, radius, BLACK);
+            // SHIELD
+            DrawRing(center, shieldInnerRadius, radius, -225.0f, -45.0f, 32, LIGHTGRAY);
+            // ARMOR
+            DrawRing(center, armorInnerRadius, armorOuterRadius, -225.0f, -45.0f, 32, LIGHTGRAY);
+            // STRUCTURE
+            DrawRing(center, structureInnerRadius, structureOuterRadius, -225.0f, -45.0f, 32, LIGHTGRAY);
+            // CENTER
+            DrawCircle(centerX, centerY, 50.0f * radiusPercent, GOLD);
+            // CAPACITOR LEVEL INDICATOR
+            DrawRing(center, structureOuterRadius, radius, 45.0f - 85.0f * capacitorChargePercent / 100.0f, 45.0f, 32, BLUE);
+            // SPEED TEXT
+            DrawRing(center, structureOuterRadius, radius, 50.0f, 130.0f, 32, GRAY);
+            // SPEED INDICATOR
+            DrawRing(center, structureInnerRadius, structureOuterRadius - 6 * radiusPercent, 130.0f - 170.0f * speedPercent, 130.0f, 32,
+                     DARKBLUE);
+
             const auto speedStr = std::format("{:L}m/s", roundf(speed));
 
             const auto textSize = MeasureText(speedStr.c_str(), 22.0f);
             DrawText(speedStr.c_str(), centerX - textSize / 2,
-                     toFloat(center.y + structureInnerRadius) + 5 * radiusPercent, 22.0f, BLACK);
+                     toFloat(center.y + structureInnerRadius) + 12 * radiusPercent, 22.0f, BLACK);
 
-            const auto capacitorChargePercent = player.get<Capacitor>().GetCurrentChargeLevelPercent();
             const auto capacitorStr = std::format("{:L}%", roundf(capacitorChargePercent));
             const auto capacitorTextSize = MeasureText(capacitorStr.c_str(), 32.0f);
             DrawText(capacitorStr.c_str(), centerX - capacitorTextSize / 2,
