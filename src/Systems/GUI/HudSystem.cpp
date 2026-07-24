@@ -8,7 +8,7 @@
 #include "raymath.h"
 #include "Components/Impl/Capacitor.h"
 #include "Components/Impl/MaxSpeed.h"
-#include "Components/Impl/Velocity.h"
+#include "Components/Impl/VelocityVector.h"
 #include "Utils/EntityNames.h"
 
 

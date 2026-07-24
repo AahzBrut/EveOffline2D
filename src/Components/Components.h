@@ -21,7 +21,7 @@
 #include "Impl/TargetPosition.h"
 #include "Impl/TargetRotation.h"
 #include "Impl/ThrustLevel.h"
-#include "Impl/Velocity.h"
+#include "Impl/VelocityVector.h"
 
 
 // ReSharper disable CppExpressionWithoutSideEffects

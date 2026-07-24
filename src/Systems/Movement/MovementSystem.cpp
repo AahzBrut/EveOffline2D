@@ -7,7 +7,7 @@
 #include "Components/Impl/Position.h"
 #include "Components/Impl/Rotation.h"
 #include "Components/Impl/Speed.h"
-#include "Components/Impl/Velocity.h"
+#include "Components/Impl/VelocityVector.h"
 
 
 void MovementSystem(const flecs::world& world) {

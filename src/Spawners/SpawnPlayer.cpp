@@ -16,7 +16,7 @@
 #include "Components/Impl/Sprite.h"
 #include "Components/Impl/TargetRotation.h"
 #include "Components/Impl/ThrustLevel.h"
-#include "Components/Impl/Velocity.h"
+#include "Components/Impl/VelocityVector.h"
 #include "Utils/EntityNames.h"
 
 
