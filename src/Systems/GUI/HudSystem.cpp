@@ -8,7 +8,7 @@
 #include "raymath.h"
 #include "Components/Impl/Capacitor.h"
 #include "Components/Impl/MaxSpeed.h"
-#include "Components/Impl/VelocityVector.h"
+#include "Components/Impl/Speed.h"
 #include "Utils/EntityNames.h"
 
 
@@ -34,7 +34,7 @@ void HudSystem(const flecs::world& world) {
             const auto structureInnerRadius = structureOuterRadius - 12 * radiusPercent;
 
             const auto player = it.world().entity(EntityNames::PlayerEntity);
-            const auto speed = Vector2Length(player.get<VelocityVector>().velocity);
+            const auto speed = player.get<Speed>().effectiveValue;
             const auto maxSpeed = player.get<MaxSpeed>().effectiveValue;
             const auto speedPercent = speed / maxSpeed;
             const auto capacitorChargePercent = player.get<Capacitor>().GetCurrentChargeLevelPercent();
