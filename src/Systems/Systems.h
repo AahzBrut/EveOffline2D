@@ -14,11 +14,13 @@
 #include "LocalRender/BeginCameraSystem.h"
 #include "LocalRender/EndCameraSystem.h"
 #include "LocalRender/RenderSpriteSystem.h"
+#include "LocalRender/RenderTrailSystem.h"
 #include "Movement/ApproachSystem.h"
 #include "Movement/MovementSystem.h"
 #include "Movement/OrbitSystem.h"
 #include "Movement/RotationSytem.h"
 #include "Movement/ThrustSystem.h"
+#include "Movement/TrailSystem.h"
 
 
 inline void RegisterSystems(const flecs::world &world) {
@@ -31,8 +33,10 @@ inline void RegisterSystems(const flecs::world &world) {
     ThrustSystem(world);
     CapacitorRechargeSystem(world);
     MovementSystem(world);
+    TrailSystem(world);
     RenderBackgroundSystem(world);
     BeginCameraSystem(world);
+    RenderTrailSystem(world);
     RenderSpriteSystem(world);
     EndCameraSystem(world);
     HudSystem(world);

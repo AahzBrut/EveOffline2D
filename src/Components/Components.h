@@ -21,6 +21,7 @@
 #include "Impl/TargetPosition.h"
 #include "Impl/TargetRotation.h"
 #include "Impl/ThrustLevel.h"
+#include "Impl/Trail.h"
 #include "Impl/VelocityVector.h"
 
 
@@ -50,4 +51,5 @@ inline void RegisterComponents(const flecs::world &world) {
     world.component<Selected>().add(flecs::Singleton);
     world.set<Selected>({});
     world.component<Capacitor>();
+    world.component<Trail>();
 }

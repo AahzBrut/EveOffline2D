@@ -16,6 +16,7 @@
 #include "Components/Impl/Sprite.h"
 #include "Components/Impl/TargetRotation.h"
 #include "Components/Impl/ThrustLevel.h"
+#include "Components/Impl/Trail.h"
 #include "Components/Impl/VelocityVector.h"
 #include "Utils/EntityNames.h"
 
@@ -37,24 +38,26 @@ void SpawnPlayer(const flecs::world& world) {
                             ThrustLevel& thrustLevel,
                             Speed& speed,
                             MouseCollider& mouseCollider,
-                            Capacitor& capacitor
+                            Capacitor& capacitor,
+                            Trail& trail
                         ) {
                                 const auto spriteTexture = assetManager->GetTexture(ShipSprite);
-                                position = {300, 500};
+                                position = {.x = 300, .y = 500};
                                 sprite = {
-                                    {}, {toFloat(spriteTexture->width), toFloat(spriteTexture->height)}, spriteTexture,
-                                    PI / 2, 0.5f
+                                    .offset = {}, .size = {.x = toFloat(spriteTexture->width), .y = toFloat(spriteTexture->height)}, .texture = spriteTexture,
+                                    .rotation = PI / 2, .scale = 0.5f
                                 };
-                                velocity = {{0, 0}};
-                                maxSpeed = {450.0f, 450.0f};
+                                velocity = {{.x = 0, .y = 0}};
+                                maxSpeed = {.baseValue = 450.0f, .effectiveValue = 450.0f};
                                 rotation = {0.0f};
-                                acceleration = {50.0f, 50.0f};
-                                maxRotationSpeed = {30.0f * DEG2RAD, 30.0f * DEG2RAD};
+                                acceleration = {.baseValue = 50.0f, .effectiveValue = 50.0f};
+                                maxRotationSpeed = {.baseValue = 30.0f * DEG2RAD, .effectiveValue = 30.0f * DEG2RAD};
                                 thrustLevel = {0.0f};
                                 targetRotation = {0.0f};
-                                speed = {0.0f, 0.0f};
+                                speed = {.baseValue = 0.0f, .effectiveValue = 0.0f};
                                 mouseCollider = {sprite.GetCenterOrigin().x / 2};
-                                capacitor = {187.5, 187.5, 250, 250, 0};
+                                capacitor = {.baseRechargeTime = 187.5, .currentRechargeTime = 187.5, .baseMaxValue = 250, .currentMaxValue = 250, .currentValue = 0};
+                                trail = {};
                             });
     player.add<MovementState, IdleState>();
     player.set_doc_name("Player");
