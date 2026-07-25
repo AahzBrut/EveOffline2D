@@ -17,35 +17,40 @@ void RenderTrailSystem(const flecs::world& world) {
             if (pointCount < 2) return;
 
             auto trailColor = [](const float t) -> Color {
-                if (t < 0.5f) {
-                    const float k = t / 0.5f;
-                    return ColorAlpha(Color {
-                        .r = 255,
-                        .g = static_cast<unsigned char>(255 * k),
-                        .b = 0,
-                        .a = 255
-                    }, 0.9f * (1.0f - t));
+                // t=0 at ship (red), t=1 at tail (white)
+                // 0.0–0.025: red (2.5%), 0.025–0.15: red→yellow (12.5%), 0.15–0.325: yellow (17.5%), 0.325–0.5: yellow→white (17.5%), 0.5–1.0: white
+                unsigned char r, g, b;
+                if (t < 0.025f) {
+                    r = 255; g = 0; b = 0;
+                } else if (t < 0.15f) {
+                    const float k = (t - 0.025f) / 0.125f;
+                    r = 255;
+                    g = static_cast<unsigned char>(190.0f * k);  // 0 → 190
+                    b = 0;
+                } else if (t < 0.325f) {
+                    r = 255; g = 190; b = 0;
+                } else if (t < 0.5f) {
+                    const float k = (t - 0.325f) / 0.175f;
+                    r = 255;
+                    g = static_cast<unsigned char>(190.0f + 65.0f * k);  // 190 → 255
+                    b = static_cast<unsigned char>(255.0f * k);
+                } else {
+                    r = 255; g = 255; b = 255;
                 }
-                const float k = (t - 0.5f) / 0.5f;
-                return ColorAlpha(Color {
-                    .r = 255,
-                    .g = 255,
-                    .b = static_cast<unsigned char>(255 * k),
-                    .a = 255
-                }, 0.9f * (1.0f - t));
+                return ColorAlpha(Color { .r = r, .g = g, .b = b, .a = 255 }, 0.9f * (1.0f - t));
             };
 
             for (int i = 0; i < pointCount - 1; ++i) {
-                constexpr float tailWidth = 2.0f;
-                constexpr float headWidth = 16.0f;
+                constexpr float tailWidth = 1.0f;
+                constexpr float headWidth = 8.0f;
                 const Vector2& p0 = trail.points[i];
                 const Vector2& p1 = trail.points[i + 1];
 
                 const Vector2 dir = Vector2Normalize(p1 - p0);
                 const Vector2 perp = {.x = -dir.y, .y = dir.x};
 
-                const float t0 = static_cast<float>(i) / static_cast<float>(pointCount - 1);
-                const float t1 = static_cast<float>(i + 1) / static_cast<float>(pointCount - 1);
+                const float t0 = toFloat(i) / toFloat(pointCount - 1);
+                const float t1 = toFloat(i + 1) / toFloat(pointCount - 1);
                 const float w0 = headWidth * (1.0f - t0) + tailWidth * t0;
                 const float w1 = headWidth * (1.0f - t1) + tailWidth * t1;
 
