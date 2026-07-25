@@ -25,15 +25,15 @@ void RenderTrailSystem(const flecs::world& world) {
                 } else if (t < 0.15f) {
                     const float k = (t - 0.025f) / 0.125f;
                     r = 255;
-                    g = static_cast<unsigned char>(190.0f * k);  // 0 → 190
+                    g = toUChar(190.0f * k);  // 0 → 190
                     b = 0;
                 } else if (t < 0.325f) {
                     r = 255; g = 190; b = 0;
                 } else if (t < 0.5f) {
                     const float k = (t - 0.325f) / 0.175f;
                     r = 255;
-                    g = static_cast<unsigned char>(190.0f + 65.0f * k);  // 190 → 255
-                    b = static_cast<unsigned char>(255.0f * k);
+                    g = toUChar(190.0f + 65.0f * k);  // 190 → 255
+                    b = toUChar(255.0f * k);
                 } else {
                     r = 255; g = 255; b = 255;
                 }
@@ -63,10 +63,10 @@ void RenderTrailSystem(const flecs::world& world) {
                 const Color c1 = trailColor(t1);
 
                 const Color avg0 = {
-                    .r = static_cast<unsigned char>((c0.r + c1.r) / 2),
-                    .g = static_cast<unsigned char>((c0.g + c1.g) / 2),
-                    .b = static_cast<unsigned char>((c0.b + c1.b) / 2),
-                    .a = static_cast<unsigned char>((c0.a + c1.a) / 2)
+                    .r = toUChar((c0.r + c1.r) / 2),
+                    .g = toUChar((c0.g + c1.g) / 2),
+                    .b = toUChar((c0.b + c1.b) / 2),
+                    .a = toUChar((c0.a + c1.a) / 2)
                 };
 
                 DrawTriangle(l1, r0, l0, avg0);
